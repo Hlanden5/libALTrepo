@@ -11,6 +11,7 @@
 
 void downloadPacketsInfo(std::vector<std::string>& branch_vec);
 void parseFile(std::string branch, std::vector<packetInfo> &packets);
+void getAllArch(std::vector<std::string>& arch_vec, const std::vector<packetInfo>& branch);
 
 int main()
 {    
@@ -68,7 +69,23 @@ int main()
         }
     }
 
+    std::ofstream makeFile{std::string(getcwd(path, sizeof(path))) + std::string("/check.json"), std::ios_base::app};
+    makeFile.close();
+
+    std::ofstream json{std::string(getcwd(path, sizeof(path))) + std::string("/check.json"), std::ios_base::trunc};
+
+    std::vector<std::string> arch_vec;
+    getAllArch(arch_vec, branch1);
+
     return 0;
+}
+
+void getAllArch(std::vector<std::string>& arch_vec, const std::vector<packetInfo> &branch){
+    for(auto i = branch.begin();i<branch.end();++i){
+        if(std::count(arch_vec.begin(),arch_vec.end(),i->arch) == 0){
+            arch_vec.push_back(i->arch);
+        }
+    }
 }
 
 void downloadPacketsInfo(std::vector<std::string>& branch_vec){
