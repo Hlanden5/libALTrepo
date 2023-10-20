@@ -48,4 +48,26 @@ struct packetInfoComp {
     }
 };
 
+struct packetInfoCompVerRel {
+    bool operator() (const packetInfo& lhs, const packetInfo& rhs) const {
+        if (lhs.name != rhs.name)
+            return lhs.name < rhs.name;
+        if (lhs.epoch != rhs.epoch)
+            return lhs.epoch < rhs.epoch;
+        if (lhs.version != rhs.version)
+            return lhs.version < rhs.version;
+        if (lhs.release != rhs.release)
+            return lhs.release < rhs.release;
+        if (lhs.arch != rhs.arch)
+            return lhs.arch < rhs.arch;
+        if (lhs.disttag != rhs.disttag)
+            return lhs.disttag < rhs.disttag;
+        if (lhs.buildtime != rhs.buildtime)
+            return lhs.buildtime < rhs.buildtime;
+        if (lhs.release == rhs.release)
+            return lhs.version > rhs.version;
+        return lhs.source < rhs.source;
+    }
+};
+
 #endif // LIBALTREPO_H
