@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include <unistd.h>
+#include <set>
 
 #include <libaltrepo.h>
 
@@ -57,7 +58,9 @@ int main()
         break;
     }
 
+    downloadPacketsInfo(branch_vec);
     std::vector<packetInfo> branch1, branch2;
+    
     for(auto &c : branch_vec){
         if(branch1.size() == 0){
             parseFile(c,branch1);
@@ -69,6 +72,7 @@ int main()
         }
     }
 
+    char path[1024];
     std::ofstream makeFile{std::string(getcwd(path, sizeof(path))) + std::string("/check.json"), std::ios_base::app};
     makeFile.close();
 
@@ -128,9 +132,10 @@ int main()
         json << "{\"arch\": " << *j << "} ";
         json << "{\"All packages whose version-release is greater in the 1st than in the 2nd\", "
              << "\"packages\": [";
+        
         diff.clear();
         std::set_difference(branch2_set.begin(), branch2_set.end(), branch1_set.begin(), branch1_set.end(), std::back_inserter(diff), packetInfoCompVerRel());
-        std::cout << "diff " << diff.size() << std::endl;
+        
         for (const auto& i : diff) {
             json << "{" << "\"name\": " << i.name << ", "
                  << "\"epoch\": " << i.epoch << ", "
