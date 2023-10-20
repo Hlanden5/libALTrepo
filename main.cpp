@@ -77,6 +77,75 @@ int main()
     std::vector<std::string> arch_vec;
     getAllArch(arch_vec, branch1);
 
+    std::multiset<packetInfo, packetInfoComp> branch1_set(branch1.begin(), branch1.end());
+    std::multiset<packetInfo, packetInfoComp> branch2_set(branch2.begin(), branch2.end());
+
+    for(auto j = arch_vec.begin(); j < arch_vec.end(); ++j){
+
+        // 1
+        json << "{\"arch\": " << *j << "} ";
+        json << "{\"All packages that are in the 1st but not in the 2nd\", "
+             << "\"packages\": [";
+
+        std::vector<packetInfo> diff;
+        std::set_difference(branch1_set.begin(), branch1_set.end(), branch2_set.begin(), branch2_set.end(), std::back_inserter(diff), packetInfoComp());
+
+        for (const auto& i : diff) {
+            json << "{" << "\"name\": " << i.name << ", "
+                 << "\"epoch\": " << i.epoch << ", "
+                 << "\"version\": " << i.version << ", "
+                 << "\"release\": " << i.epoch << ", "
+                 << "\"arch\": " << i.arch << ", "
+                 << "\"disttag\": " << i.disttag << ", "
+                 << "\"buildtime\": " << i.buildtime << ", "
+                 << "\"source\": " << i.source << "}, ";
+        }
+
+        json << "]}" << std::endl;
+
+        // 2
+        json << "{\"arch\": " << *j << "} ";
+        json << "{\"All packages that are in the 2st but not in the 1nd\", "
+             << "\"packages\": [";
+
+        diff.clear();
+        std::set_difference(branch2_set.begin(), branch2_set.end(), branch1_set.begin(), branch1_set.end(), std::back_inserter(diff), packetInfoComp());
+
+        for (const auto& i : diff) {
+            json << "{" << "\"name\": " << i.name << ", "
+                 << "\"epoch\": " << i.epoch << ", "
+                 << "\"version\": " << i.version << ", "
+                 << "\"release\": " << i.epoch << ", "
+                 << "\"arch\": " << i.arch << ", "
+                 << "\"disttag\": " << i.disttag << ", "
+                 << "\"buildtime\": " << i.buildtime << ", "
+                 << "\"source\": " << i.source << "}, ";
+        }
+        json << "]}" << std::endl;
+
+        // 3
+
+        json << "{\"arch\": " << *j << "} ";
+        json << "{\"All packages whose version-release is greater in the 1st than in the 2nd\", "
+             << "\"packages\": [";
+        diff.clear();
+        std::set_difference(branch2_set.begin(), branch2_set.end(), branch1_set.begin(), branch1_set.end(), std::back_inserter(diff), packetInfoCompVerRel());
+        std::cout << "diff " << diff.size() << std::endl;
+        for (const auto& i : diff) {
+            json << "{" << "\"name\": " << i.name << ", "
+                 << "\"epoch\": " << i.epoch << ", "
+                 << "\"version\": " << i.version << ", "
+                 << "\"release\": " << i.epoch << ", "
+                 << "\"arch\": " << i.arch << ", "
+                 << "\"disttag\": " << i.disttag << ", "
+                 << "\"buildtime\": " << i.buildtime << ", "
+                 << "\"source\": " << i.source << "}, ";
+        }
+        json << "]}" << std::endl;
+    }
+    json.close();
+
+    std::cout << "Job done!" << std::endl;
     return 0;
 }
 
