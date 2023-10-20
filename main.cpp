@@ -13,12 +13,48 @@ void downloadPacketsInfo(std::vector<std::string>& branch_vec);
 void parseFile(std::string branch, std::vector<packetInfo> &packets);
 
 int main()
-{
+{    
     std::vector<std::string> branch_vec;
-    branch_vec.push_back("sisyphus");
-    branch_vec.push_back("p10");
-    //branch_vec.push_back("p9");
-    //downloadPacketsInfo(branch_vec);
+    
+    int packet1=0,packet2=0;
+    do{
+        std::cout << "Choose binary branch 1 and binary branch 2, you can choose(Write number 1 and number 2)" << std::endl
+                  << "1 p10" << std::endl
+                  << "2 p9" << std::endl
+                  << "3 sisyphus"
+                  << std::endl;
+        std::cin >> packet1 >> packet2;
+        if(packet1==packet2)
+            std::cout << "Don't choose one binary branch!";
+        if(packet1!=1 and packet1!=2 and packet1!=3)
+            std::cout << "Check first binary branch!";
+        if(packet2!=1 and packet2!=2 and packet2!=3)
+            std::cout << "Check second binary branch!";
+    }while(packet1==packet2);
+
+    switch(packet1){
+    case 1:
+        branch_vec.push_back("p10");
+        break;
+    case 2:
+        branch_vec.push_back("p9");
+        break;
+    case 3:
+        branch_vec.push_back("sisyphus");
+        break;
+    }
+
+    switch(packet2){
+    case 1:
+        branch_vec.push_back("p10");
+        break;
+    case 2:
+        branch_vec.push_back("p9");
+        break;
+    case 3:
+        branch_vec.push_back("sisyphus");
+        break;
+    }
 
     std::vector<packetInfo> branch1, branch2;
     for(auto &c : branch_vec){
