@@ -23,7 +23,7 @@ Export your library path with
 ```bash
 export LD_LIBRARY_PATH
 ```
-In this terminal
+In this terminal compile with
 ```bash
 g++ -I. -L. main.cpp -o altrepo -laltrepo
 ```
