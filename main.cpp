@@ -15,9 +15,9 @@ void parseFile(std::string branch, std::vector<packetInfo> &packets);
 void getAllArch(std::vector<std::string>& arch_vec, const std::vector<packetInfo>& branch);
 
 int main()
-{    
+{
     std::vector<std::string> branch_vec;
-    
+
     int packet1=0,packet2=0;
     do{
         std::cout << "Choose binary branch 1 and binary branch 2, you can choose(Write number 1 and number 2)" << std::endl
@@ -60,7 +60,7 @@ int main()
 
     downloadPacketsInfo(branch_vec);
     std::vector<packetInfo> branch1, branch2;
-    
+
     for(auto &c : branch_vec){
         if(branch1.size() == 0){
             parseFile(c,branch1);
@@ -132,10 +132,10 @@ int main()
         json << "{\"arch\": " << *j << "} ";
         json << "{\"All packages whose version-release is greater in the 1st than in the 2nd\", "
              << "\"packages\": [";
-        
+
         diff.clear();
-        std::set_difference(branch2_set.begin(), branch2_set.end(), branch1_set.begin(), branch1_set.end(), std::back_inserter(diff), packetInfoCompVerRel());
-        
+        std::set_difference(branch1_set.begin(), branch1_set.end(), branch2_set.begin(), branch2_set.end(), std::back_inserter(diff), packetInfoCompVerRel());
+
         for (const auto& i : diff) {
             json << "{" << "\"name\": " << i.name << ", "
                  << "\"epoch\": " << i.epoch << ", "
