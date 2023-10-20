@@ -4,7 +4,7 @@
 ALTREPO it's a CLI C++17 utilite. 
 
 ## Installation
-download main.cpp and libartrepo.so. Install libartrepo.so
+download main.cpp, libartrepo.so, libartrepo.h. Install libartrepo.so
  
 
 ```bash
