@@ -1,11 +1,15 @@
 # libALTrepo
 # Foobar
 
-ALTREPO it's a CLI C++17 utilite. 
+ALTREPO it's a CLI C++ utilite. 
 
 ## Installation
-download main.cpp, libartrepo.so, libartrepo.h. Install libartrepo.so
- 
+download main.cpp, libartrepo.h and libaltrepo.cpp. Compile shared library
+
+```bash
+g++ -c -Wall -Werror -fPIC libaltrepo.cpp
+g++ -shared -o libaltrepo.so libaltrepo.o
+```
 
 ```bash
 echo $LD_LIBRARY_PATH
